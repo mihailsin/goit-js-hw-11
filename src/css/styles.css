@@ -1,0 +1,30 @@
+img {
+  display: block;
+  max-width: 100%;
+  max-height: 340px;
+}
+.search-form {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  margin-bottom: 2em;
+}
+.gallery {
+  display: flex;
+  flex-flow: row wrap;
+  margin-top: -30px;
+  margin-left: -30px;
+}
+.photo-card {
+  outline: #000000 solid 1px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  margin-top: 30px;
+  margin-left: 30px;
+  flex-basis: calc((100% - 120px) / 4);
+}
+.info {
+  display: flex;
+  justify-content: space-around;
+}
