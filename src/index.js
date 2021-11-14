@@ -7,7 +7,7 @@ import { createCards } from './js/markup';
 const ALERT_STRING = 'Sorry, there are no images matching your search query. Please try again.';
 let query;
 let lightbox;
-let page = 1;
+let page;
 gallery.addEventListener('click', onImageClick);
 button.addEventListener('click', onClick);
 form.addEventListener('input', onInput);
@@ -31,12 +31,14 @@ function onSubmit(e) {
   e.preventDefault();
   if (query === undefined || query === '') {
     Notiflix.Notify.failure('Query string is empty! You should type something!!!');
+    button.classList.add('.visually-hidden');
+
     return;
   }
-
-  renderPictures();
   page = 1;
+  renderPictures();
   button.removeAttribute('disabled');
+  button.classList.remove('visually-hidden');
 }
 
 async function renderPictures() {
@@ -64,6 +66,7 @@ async function renderPictures() {
     }
     if (responseQuantity < 40 && responseQuantity > 0) {
       button.setAttribute('disabled', true);
+      button.classList.add('.visually-hidden');
     } else if (responseQuantity === 0) {
       Notiflix.Notify.failure(ALERT_STRING);
     }
