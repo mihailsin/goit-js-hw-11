@@ -66,9 +66,9 @@ async function renderPictures() {
     }
     if (responseQuantity < 40 && responseQuantity > 0) {
       button.setAttribute('disabled', true);
-      button.classList.add('.visually-hidden');
     } else if (responseQuantity === 0) {
       Notiflix.Notify.failure(ALERT_STRING);
+      button.classList.add('.visually-hidden');
     }
     return markup;
   } catch ({ name, message, stack }) {
