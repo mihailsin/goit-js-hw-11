@@ -31,14 +31,11 @@ function onSubmit(e) {
   e.preventDefault();
   if (query === undefined || query === '') {
     Notiflix.Notify.failure('Query string is empty! You should type something!!!');
-    button.classList.add('.visually-hidden');
-
     return;
   }
   page = 1;
   renderPictures();
   button.removeAttribute('disabled');
-  button.classList.remove('visually-hidden');
 }
 
 async function renderPictures() {
@@ -68,7 +65,9 @@ async function renderPictures() {
       button.setAttribute('disabled', true);
     } else if (responseQuantity === 0) {
       Notiflix.Notify.failure(ALERT_STRING);
-      button.classList.add('.visually-hidden');
+      button.classList.add('visually-hidden');
+    } else {
+      button.classList.remove('visually-hidden');
     }
     return markup;
   } catch ({ name, message, stack }) {
