@@ -29,6 +29,11 @@ function onInput(e) {
 }
 function onSubmit(e) {
   e.preventDefault();
+  if (query === undefined || query === '') {
+    Notiflix.Notify.failure('Query string is empty! You should type something!!!');
+    return;
+  }
+
   renderPictures();
   page = 1;
   button.removeAttribute('disabled');
