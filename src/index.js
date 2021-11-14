@@ -14,7 +14,6 @@ form.addEventListener('input', onInput);
 form.addEventListener('submit', onSubmit);
 function onImageClick(e) {
   e.preventDefault();
-  console.log(e.target);
   if (e.target.nodeName === 'a') {
     lightbox.open(e.target);
   }
@@ -58,7 +57,6 @@ async function renderPictures() {
     if (page === 1 && responseQuantity > 1) {
       Notiflix.Notify.success(STRING_OF_JOY);
     }
-    console.log(page);
     if (responseQuantity < 40 && responseQuantity > 0) {
       button.setAttribute('disabled', true);
     } else if (responseQuantity === 0) {
