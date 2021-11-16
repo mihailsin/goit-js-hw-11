@@ -1,5 +1,8 @@
-export { form, searchInput, button, gallery };
-const form = document.querySelector('#search-form');
-const searchInput = document.querySelector('[name="searchQuery"]');
-const button = document.querySelector('.load-more');
-const gallery = document.querySelector('.gallery');
+export const refs = {
+  form: document.querySelector('#search-form'),
+  searchInput: document.querySelector(
+    '[name="searchQuery"]',
+  ),
+  button: document.querySelector('.load-more'),
+  gallery: document.querySelector('.gallery'),
+};
