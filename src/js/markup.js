@@ -1,22 +1,13 @@
 import { refs } from './refs';
-export { createCards, addMarkup, erasePage };
+export { createCards, addMarkup, eraseCards };
 function createCards(pictures) {
   const markup = pictures
-    .map(
-      ({
-        largeImageURL,
-        webformatURL,
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-      }) => {
-        return ` <div class="photo-card">
+    .map(({ largeImageURL, webformatURL, tags, likes, views, comments, downloads }) => {
+      return ` <div class="photo-card card bg-light">
       <a href="${largeImageURL}">
   <img src="${webformatURL}" alt="${tags}" loading="lazy" />
   </a>
-  <div class="info">
+  <div class="info card-footer">
     <p class="info-item">
     Likes
       <b>${likes}</b>
@@ -35,8 +26,7 @@ function createCards(pictures) {
     </p>
   </div>
 </div>`;
-      },
-    )
+    })
     .join('');
   return markup;
 }
@@ -45,6 +35,6 @@ function addMarkup(markup) {
   refs.gallery.insertAdjacentHTML('beforeend', markup);
 }
 
-function erasePage() {
+function eraseCards() {
   refs.gallery.innerHTML = '';
 }
