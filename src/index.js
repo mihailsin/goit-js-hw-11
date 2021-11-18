@@ -42,10 +42,8 @@ async function onLoad(e) {
     top: cardHeight * 2.65,
     behavior: 'smooth',
   });
-  // window.scrollBy({
-  //   top: window.innerHeight,
-  //   behavior: 'smooth',
-  // });
+
+  // refs.gallery.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
 }
 
 function onInput(e) {
