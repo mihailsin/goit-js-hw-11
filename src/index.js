@@ -2,7 +2,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import SimpleLightbox from 'simplelightbox';
 import Notiflix, { Notify } from 'notiflix';
 import { refs } from './js/refs';
-import { KEY, REQUEST_PARAMS, BASE_URL, PixabayApi } from './js/request';
+import { PixabayApi } from './js/request';
 import { createCards, addMarkup, eraseCards } from './js/markup';
 const ALERT_STRING = 'Sorry, there are no images matching your search query. Please try again.';
 let lightbox;
@@ -32,9 +32,20 @@ function onImageClick(e) {
   }
 }
 
-function onLoad(e) {
+async function onLoad(e) {
   pixabayApi.incrementPage();
-  renderPage();
+  await renderPage();
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+  window.scrollBy({
+    top: cardHeight * 2.65,
+    behavior: 'smooth',
+  });
+  // window.scrollBy({
+  //   top: window.innerHeight,
+  //   behavior: 'smooth',
+  // });
 }
 
 function onInput(e) {
@@ -52,9 +63,7 @@ function initLightboxInstance() {
 
 async function renderPage() {
   try {
-    const data = pixabayApi.fetchPictures(
-      `${BASE_URL}?key=${KEY}&q=${pixabayApi.searchQuery}&${REQUEST_PARAMS}&page=${pixabayApi.page}&per_page=40`,
-    );
+    const data = pixabayApi.fetchPictures();
     const pictures = await data;
     let responseQuantity = pictures.totalHits;
     let cardsOnPageQuantity = pictures.hits.length;
