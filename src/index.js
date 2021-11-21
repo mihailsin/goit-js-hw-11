@@ -1,10 +1,10 @@
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import SimpleLightbox from 'simplelightbox';
-import Notiflix, { Notify } from 'notiflix';
+import { notification } from './js/notifications';
 import { refs } from './js/refs';
 import { PixabayApi } from './js/request';
 import { createCards, addMarkup, eraseCards } from './js/markup';
-const ALERT_STRING = 'Sorry, there are no images matching your search query. Please try again.';
+
 let lightbox;
 const pixabayApi = new PixabayApi();
 
@@ -17,7 +17,7 @@ function onSubmit(e) {
   e.preventDefault();
   eraseCards();
   if (pixabayApi.searchQuery === '') {
-    Notiflix.Notify.failure('Query string is empty! You should type something!!!');
+    notification.queryIsEmpty();
     refs.button.classList.add('visually-hidden');
     return;
   }
@@ -65,13 +65,13 @@ async function renderPage() {
     const pictures = await data;
     let responseQuantity = pictures.totalHits;
     let cardsOnPageQuantity = pictures.hits.length;
-    const STRING_OF_JOY = `Hooray! We found ${responseQuantity} images.`;
+
     if (cardsOnPageQuantity === 0) {
-      Notiflix.Notify.failure(ALERT_STRING);
+      notification.searchFailure();
       refs.button.classList.add('visually-hidden');
     }
     if (pixabayApi.page === 1 && cardsOnPageQuantity >= 1) {
-      Notiflix.Notify.success(STRING_OF_JOY);
+      notification.searchSuccess(`Hooray! We found ${responseQuantity} images.`);
       refs.button.classList.remove('visually-hidden');
     }
     if (cardsOnPageQuantity > 0 && cardsOnPageQuantity < 40) {
