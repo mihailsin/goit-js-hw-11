@@ -3,10 +3,9 @@ export { createCards, addMarkup, eraseCards };
 function createCards(pictures) {
   const markup = pictures
     .map(({ largeImageURL, webformatURL, tags, likes, views, comments, downloads }) => {
-      return ` <div class="photo-card card bg-light">
-      <a href="${largeImageURL}">
+      return `<div class="photo-card">
+      <a class="card-link" href="${largeImageURL}">
   <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-  </a>
   <div class="info card-footer">
     <p class="info-item">
     Likes
@@ -25,7 +24,8 @@ function createCards(pictures) {
       <b>${downloads}</b>
     </p>
   </div>
-</div>`;
+  </a>
+  </div>`;
     })
     .join('');
   return markup;
