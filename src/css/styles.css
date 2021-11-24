@@ -41,11 +41,13 @@ a {
 .card-link {
   display: block;
 }
-.photo-card:hover,
-.photo-card:focus {
+.card-link:hover {
+  color: inherit;
+}
+.card-link:hover .photo-card,
+.card-link:focus .photo-card {
   transform: scale(1.05);
   outline: #000000 solid 1px;
-  color: #0000ff;
   box-shadow: 3px 3px 15px 1px #000000;
 }
 

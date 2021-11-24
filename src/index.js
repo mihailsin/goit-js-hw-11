@@ -51,7 +51,7 @@ function onInput(e) {
 }
 
 function initLightboxInstance() {
-  lightbox = new SimpleLightbox('.photo-card a', {
+  lightbox = new SimpleLightbox('.gallery a', {
     captionsData: 'alt',
     captionPosition: 'bottom',
     captionDelay: 500,
