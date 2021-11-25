@@ -38,14 +38,14 @@ a {
   transition-duration: 100ms;
   transition-timing-function: linear;
 }
-.card-link {
+.card__link {
   display: block;
 }
-.card-link:hover {
+.card__link:hover {
   color: inherit;
 }
-.card-link:hover .photo-card,
-.card-link:focus .photo-card {
+.card__link:hover .photo-card,
+.card__link:focus .photo-card {
   transform: scale(1.05);
   outline: #000000 solid 1px;
   box-shadow: 3px 3px 15px 1px #000000;

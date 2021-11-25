@@ -79,6 +79,25 @@ async function renderPage() {
     }
     addMarkup(createCards(pictures.hits));
     initLightboxInstance();
+    const options = {
+      threshold: 0.1,
+    };
+    let observer = new IntersectionObserver(callback, options);
+
+    function callback(entries, observer) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          console.log('!');
+          onLoad();
+        }
+      });
+    }
+    let lastCard = document.querySelectorAll('.gallery > a:last-child');
+    console.log(lastCard);
+    lastCard.forEach(a => {
+      console.log(a);
+      observer.observe(a);
+    });
   } catch ({ name, message, stack }) {
     console.log(`Error name: ${name}`);
     console.log(`Error message: ${message}`);
