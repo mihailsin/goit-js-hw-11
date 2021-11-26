@@ -5,20 +5,50 @@ import { refs } from './js/refs';
 import { PixabayApi } from './js/request';
 import { createCards, addMarkup, eraseCards } from './js/markup';
 
+let observer;
+let lastCard;
 let lightbox;
+
+let responseQuantity;
+let cardsOnPageQuantity;
+
 const pixabayApi = new PixabayApi();
 
 refs.gallery.addEventListener('click', onImageClick);
-refs.button.addEventListener('click', onLoad);
 refs.form.addEventListener('input', onInput);
 refs.form.addEventListener('submit', onSubmit);
+
+function createObserver() {
+  const options = {
+    threshold: 0.9,
+  };
+  observer = new IntersectionObserver(callback, options);
+
+  function callback(entries, observer) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        onLoad();
+      }
+    });
+  }
+  lastCard = document.querySelector('.gallery > a:last-child');
+  if (cardsOnPageQuantity > 0) {
+    observer.observe(refs.spinner);
+  }
+}
+
+function setSpinnerVisibility() {
+  if (cardsOnPageQuantity > 0 && cardsOnPageQuantity < 40) {
+    refs.spinner.classList.add('visually-hidden');
+  } else refs.spinner.classList.remove('visually-hidden');
+}
 
 function onSubmit(e) {
   e.preventDefault();
   eraseCards();
   if (pixabayApi.searchQuery === '') {
     notification.queryIsEmpty();
-    refs.button.classList.add('visually-hidden');
+    refs.spinner.classList.add('visually-hidden');
     return;
   }
   pixabayApi.resetPage();
@@ -33,6 +63,7 @@ function onImageClick(e) {
 }
 
 async function onLoad(e) {
+  observer.unobserve(refs.spinner);
   pixabayApi.incrementPage();
   await renderPage();
   const { height: cardHeight } = document
@@ -59,48 +90,29 @@ function initLightboxInstance() {
   lightbox.refresh();
 }
 
+function notify() {
+  if (cardsOnPageQuantity === 0) {
+    return notification.searchFailure();
+  }
+  if (pixabayApi.page === 1 && cardsOnPageQuantity >= 1) {
+    return notification.searchSuccess(`Hooray! We found ${responseQuantity} images.`);
+  }
+}
+
 async function renderPage() {
   try {
     const data = pixabayApi.fetchPictures();
     const pictures = await data;
-    let responseQuantity = pictures.totalHits;
-    let cardsOnPageQuantity = pictures.hits.length;
-
-    if (cardsOnPageQuantity === 0) {
-      notification.searchFailure();
-      refs.button.classList.add('visually-hidden');
-    }
-    if (pixabayApi.page === 1 && cardsOnPageQuantity >= 1) {
-      notification.searchSuccess(`Hooray! We found ${responseQuantity} images.`);
-      refs.button.classList.remove('visually-hidden');
-    }
-    if (cardsOnPageQuantity > 0 && cardsOnPageQuantity < 40) {
-      refs.button.classList.add('visually-hidden');
-    }
+    responseQuantity = pictures.totalHits;
+    cardsOnPageQuantity = pictures.hits.length;
+    notify();
     addMarkup(createCards(pictures.hits));
     initLightboxInstance();
-    const options = {
-      threshold: 0.1,
-    };
-    let observer = new IntersectionObserver(callback, options);
-
-    function callback(entries, observer) {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          console.log('!');
-          onLoad();
-        }
-      });
-    }
-    let lastCard = document.querySelectorAll('.gallery > a:last-child');
-    console.log(lastCard);
-    lastCard.forEach(a => {
-      console.log(a);
-      observer.observe(a);
-    });
-  } catch ({ name, message, stack }) {
-    console.log(`Error name: ${name}`);
-    console.log(`Error message: ${message}`);
-    console.log(`Stack state: ${stack}`);
+    setSpinnerVisibility();
+    setTimeout(() => {
+      createObserver();
+    }, 3000);
+  } catch (error) {
+    console.log(error);
   }
 }
