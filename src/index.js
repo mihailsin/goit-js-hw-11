@@ -40,6 +40,8 @@ function createObserver() {
 function setSpinnerVisibility() {
   if (cardsOnPageQuantity > 0 && cardsOnPageQuantity < 40) {
     refs.spinner.classList.add('visually-hidden');
+  } else if (cardsOnPageQuantity === 0) {
+    refs.spinner.classList.add('visually-hidden');
   } else refs.spinner.classList.remove('visually-hidden');
 }
 
