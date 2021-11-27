@@ -19,15 +19,18 @@
         <input type="text" name="searchQuery" autocomplete="off" placeholder="Search images..." />
         <button type="submit" class="btn btn-primary">Search</button>
       </form>
-      <div class="gallery photo-card row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div class="gallery">
         <!-- Карточки изображений -->
       </div>
-      <button
-        type="button"
-        class="load-more btn-primary btn-lg d-block mx-auto mb-4 mt-4 visually-hidden"
-      >
-        Load more
-      </button>
+      <div class="d-flex justify-content-center">
+        <div
+          style="width: 5rem; height: 5rem; margin-top: 2rem; margin-bottom: 2rem"
+          class="spinner-border text-primary visually-hidden"
+          role="status"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
     </div>
 
     <script src="./index.js"></script>
