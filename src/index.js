@@ -6,7 +6,6 @@ import { PixabayApi } from './js/request';
 import { createCards, addMarkup, eraseCards } from './js/markup';
 
 let observer;
-let lastCard;
 let lightbox;
 
 let responseQuantity;
@@ -31,7 +30,6 @@ function createObserver() {
       }
     });
   }
-  lastCard = document.querySelector('.gallery > a:last-child');
   if (cardsOnPageQuantity > 0) {
     observer.observe(refs.spinner);
   }
@@ -55,6 +53,7 @@ function onSubmit(e) {
   }
   pixabayApi.resetPage();
   renderPage();
+  observer.unobserve(refs.spinner);
 }
 
 function onImageClick(e) {
